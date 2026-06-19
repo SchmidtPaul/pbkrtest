@@ -1,3 +1,13 @@
+pbkrtest 0.5.6
+============================================
+
+Changes:
+
+* `KRmodcomp()` again accepts a restriction matrix as `smallModel`, as
+  documented. The internal worker no longer calls `formula()` on the matrix
+  (which raised "invalid formula") and stores the matrix for printing (#15).
+
+
 pbkrtest 0.5.5 (Release date: 2025-07-04)
 ============================================
 

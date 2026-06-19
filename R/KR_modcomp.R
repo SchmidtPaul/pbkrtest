@@ -156,16 +156,10 @@ KRmodcomp_worker <- function(largeModel, smallModel, betaH=0, details=0) {
     stats <- .KR_adjust(PhiA, Phi=vcov(largeModel), L, beta=fixef(largeModel), betaH)
     stats <- lapply(stats, c) ## To get rid of all sorts of attributes
     
-    formula.small <-
-        if (.is.lmm(smallModel)){
-            .zzz <- formula(smallModel)
-            attributes(.zzz) <- NULL
-            .zzz
-        } else {
-            list(L = L, betaH = betaH)
-        }
+    ## Keep the formula class intact (so the print method recognises it) and
+    ## store the restriction matrix itself when smallModel is given as a matrix.
     formula.large <- formula(largeModel)
-    attributes(formula.large) <- NULL
+    formula.small <- if (.is.lmm(smallModel)) formula(smallModel) else L
 
 
     test = list(
@@ -179,8 +173,8 @@ KRmodcomp_worker <- function(largeModel, smallModel, betaH=0, details=0) {
     out <- list(
         test=test,
         sigma=getME(largeModel, "sigma"),
-        formula.large=formula(largeModel),
-        formula.small=formula(smallModel),
+        formula.large=formula.large,
+        formula.small=formula.small,
         ctime=(proc.time() - t0)[3],
         L=L
     )
