@@ -155,15 +155,26 @@ getLRT.gls <- function(fit1, fit0) {
 #'
 #' @export
 #' @rdname get_modcomp
-getKR <- function (object, name = c("ndf", "ddf", "Fstat", "p.value", "F.scaling", "FstatU", "p.valueU", "aux")) 
-{	
+getKR <- function (object, name = c("ndf", "ddf", "Fstat", "p.value", "F.scaling", "FstatU", "p.valueU"))
+{
   stopifnot(is(object, "KRmodcomp"))
   if (missing(name) || is.null(name)){
-    return(object$stats)
+    return(object$test)
   } else {
     stopifnot(length(name <- as.character(name)) == 1)
     name <- match.arg(name)
-    object$stats[[name]]
+    ## Map the documented accessor names onto the harmonized output in
+    ## `object$test`, a data frame with rows "KR" (scaled) and "KRU"
+    ## (unscaled) and columns statistic/df/ddf/F.scaling/p.value.
+    tab <- object$test
+    switch(name,
+           ndf       = tab["KR",  "df"],
+           ddf       = tab["KR",  "ddf"],
+           Fstat     = tab["KR",  "statistic"],
+           p.value   = tab["KR",  "p.value"],
+           F.scaling = tab["KR",  "F.scaling"],
+           FstatU    = tab["KRU", "statistic"],
+           p.valueU  = tab["KRU", "p.value"])
   }
 }
 
@@ -174,11 +185,18 @@ getSAT <- function (object, name = c("ndf", "ddf", "Fstat", "p.value"))
 {	
   stopifnot(is(object, "SATmodcomp"))
   if (missing(name) || is.null(name)){
-    return(object$test) ## FIXME Should be stats
+    return(object$test)
   } else {
     stopifnot(length(name <- as.character(name)) == 1)
     name <- match.arg(name)
-    object$test[[name]] ## FIXME Should be stats
+    ## Map the documented accessor names onto the harmonized output in
+    ## `object$test` (columns statistic/df/ddf/p.value).
+    tab <- object$test
+    switch(name,
+           ndf     = tab[["df"]],
+           ddf     = tab[["ddf"]],
+           Fstat   = tab[["statistic"]],
+           p.value = tab[["p.value"]])
   }
 }
 

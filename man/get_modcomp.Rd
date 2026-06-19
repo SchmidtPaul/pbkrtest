@@ -9,7 +9,7 @@
 \usage{
 getKR(
   object,
-  name = c("ndf", "ddf", "Fstat", "p.value", "F.scaling", "FstatU", "p.valueU", "aux")
+  name = c("ndf", "ddf", "Fstat", "p.value", "F.scaling", "FstatU", "p.valueU")
 )
 
 getSAT(object, name = c("ndf", "ddf", "Fstat", "p.value"))

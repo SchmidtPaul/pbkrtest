@@ -1,3 +1,14 @@
+pbkrtest 0.5.6
+============================================
+
+Changes:
+
+* `getKR()` and `getSAT()` no longer return `NULL` for documented component
+  names. The accessors now read the harmonized `$test` output and map names
+  such as `Fstat`/`ndf` onto its columns; `getKR()` previously read a
+  non-existent `$stats` slot. The unavailable name "aux" was dropped (#11).
+
+
 pbkrtest 0.5.5 (Release date: 2025-07-04)
 ============================================
 
